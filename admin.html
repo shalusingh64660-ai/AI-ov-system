@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | Online Voting System</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: #f4f7fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+</body>
+ 
+
+
+<body>
+    <div id="up" ></div><br>
+
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form method="POST" action="/admin/login">
+            <div class="form-group">
+                <label for="email">Email or Username</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="remember">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember" style="margin-left: 8px;">Remember Password</label>
+            </div>
+            <button type="submit" class="login-btn" style="font: xx-large;">Login</button>
+            <div class="extra-links">
+                <p><a href="/admin/forgot-password">Forgot Password?</a></p>
+                <a href="index.html"> back to home</a>
+            </div>
+        </form>
+    </div>

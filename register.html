@@ -1,0 +1,162 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | AI Voting</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-box {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            width: 85%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 90%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        a {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #444;
+        }
+
+        .ok {
+            color: green;
+        }
+
+        .bad {
+            color: red;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 8px;
+            border-radius: 6px;
+
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+
+    <div class="register-box">
+        <h2>Voter Registration</h2>
+
+        <form id="register">
+            <input type="text" placeholder="Full Name" id="fullName" required><br>
+            <input type="text" placeholder="Aadhar Number" id="aadharNumber" maxlength="12" required><br>
+            <input type="email" placeholder="Email ID" required><br>
+            <input type="password" placeholder="Create Password" id="password" maxlength="8" required maxlength="8"
+                inputmode="alphanum"><br>
+            <select required>
+                <option value="">Select state</option>
+                <option>Andra Pradesh</option>
+                <option>Arunachal Pradesh</option>
+                <option>Assam</option>
+                <option>Bihar</option>
+                <option>Chhattisgarh</option>
+                <option>Goa</option>
+                <option>Gujrat</option>
+                <option>Haryana</option>
+                <option>Himanchal Pradesh</option>
+                <option>Jharkhand</option>
+                <option>Karnataka</option>
+                <option>Kerela</option>
+                <option>Madhya Pradesh</option>
+                <option>Maharastra</option>
+                <option>Manipur</option>
+                <option>Meghalaya</option>
+                <option>Mizoram</option>
+                <option>Nagaland</option>
+                <option>Odisha</option>
+                <option>Punjab</option>
+                <option>Rajasthan</option>
+                <option>Sikkim</option>
+                <option>Tamil nadu</option>
+                <option>Telangana</option>
+                <option>Tripura</option>
+                <option>Uttar Pradesh</option>
+                <option>Uttarakhand</option>
+                <option>West Bengal</option>
+            </select><br>
+
+            <button type="submit">Register</button>
+            <a href="index.html">← Back to Home</a>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("register").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const aadharNumber = document.getElementById("aadharNumber").value;
+            const password = document.getElementById("password").value;
+
+            // Save data in localStorage
+            localStorage.setItem("aadharNumber", aadharNumber);
+            localStorage.setItem("password", password);
+            const storedaadhar = localStorage.getItem("aadhar");
+
+            if (aadharNumber === storedaadhar) {
+
+                alert("Registration Successful! Redirecting to Login Page...");
+
+                // Redirect to login page
+                window.location.href = "login.html";
+            } else {
+
+                alert("enter the authenticate aadhar");
+                return;
+            }
+
+        });
+    </script>
+</body>
+
+</html>

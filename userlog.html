@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Login & Dashboard</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      width: 340px;
+      text-align: center;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 95%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #userDetails p {
+      text-align: left;
+      margin: 5px 0;
+    }
+
+    #dashboard {
+      display: none;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+</body>
+<body>
+  <div class="container" id="loginContainer">
+    <h2>User Login</h2>
+    <form id="loginForm">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="number" id="aadhar" placeholder="Aadhar Number" maxlength="12" required>
+      <input type="email" id="email" placeholder="Email ID" required>
+      <input type="tel" id="phone" placeholder="Phone Number" maxlength="10" required>
+      <button type="submit" >Login</button>
+    </form><br>
+    <a href="index.html"> back to home</a>
+  </div>
+
+  <div class="container" id="dashboard">
+    <h2>Detail of User</h2>
+    <div id="userDetails"></div>
+    <button id="logoutBtn" onclick="index.html">Logout</button><br>
+     <a href="index.html"> back to home</a>
+  </div> 
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const dashboard = document.getElementById("dashboard");
+    const loginContainer = document.getElementById("loginContainer");
+    const userDetailsDiv = document.getElementById("userDetails");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const aadhar = document.getElementById("aadhar").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (aadhar.length !== 12 || !/^\d+$/.test(aadhar)) {
+        alert("Aadhar number must be 12 digits and numeric!");
+        return;
+      }
+      if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+        alert("Phone number must be 10 digits and numeric!");
+        return;
+      }
+
+      // Hide login form and show dashboard
+      loginContainer.style.display = "none";
+      dashboard.style.display = "block";
+
+      userDetailsDiv.innerHTML = `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Password:</strong> ${password}</p>
+        <p><strong>Aadhar Number:</strong> ${aadhar}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone Number:</strong> ${phone}</p>
+      `;
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      dashboard.style.display = "none";
+      loginContainer.style.display = "block";
+      form.reset();
+    });
+  </script>
+  
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+             </body>
+
+<body>
+
+    <form id="loginForm"  style="background-color: white;color:black; margin-left: 30%;  margin-right:30% ; margin-top: 20%; margin-bottom: 20%; padding:-bottom: 15px;"
+    >
+        <div id="log">
+            <h1>LOGIN</h1>
+            
+        <label style="font-size: x-large;">AADHAR NUMBER:</label> <BR></BR>
+        <input type="text" id="aadharNumber" required><br><br>
+
+        <label style="font-size: x-large;">PASSWORD:</label><BR></BR>
+        <input type="password" id="loginPassword" required><br><br>
+
+        <button type="submit" style="font-size: xx-large;">Login</button>
+        <p id="errorMessage" style="color:red;"></p>
+        </div>
+    </form>
+
+   
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const loginAadhar = document.getElementById("aadharNumber").value;
+            const loginPassword = document.getElementById("loginPassword").value;
+
+            const storedAadhar = localStorage.getItem("aadharNumber");
+            const storedPassword = localStorage.getItem("password");
+
+            if (loginAadhar === storedAadhar && loginPassword === storedPassword) {
+                alert("Login Successful!");
+                window.location.href = "vote.html"; // Redirect after successful login
+            } else {
+                document.getElementById("errorMessage").innerText = "Invalid Aadhar number or password!";
+            }
+        });
+    </script>
+</body>
+
+</html>

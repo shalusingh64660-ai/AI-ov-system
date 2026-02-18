@@ -1,0 +1,347 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>India Voter Turnout</title>
+ 
+
+  <!-- Chart.js v4 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#f6f6f8;
+      --card:#ffffff;
+      --muted:#9aa3ad;
+      --bar:#7fb3e6;
+      --highlight:#0f4c81;
+      --text:#243042;
+      --accent:#2b8fd6;
+      --padding:18px;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      justify-content:center;
+      padding:30px;
+      box-sizing:border-box;
+    }
+
+    .card{
+      margin: top 50px;
+      width:980px;
+      max-width:96vw;
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
+      border-radius:10px;
+      padding:24px;
+      box-shadow:0 6px 18px rgba(20,30,40,0.08);
+    }
+
+    .header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .title{
+      font-size:24px;
+      font-weight:700;
+      letter-spacing:-0.2px;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:2px;
+    }
+
+    .flag {
+      width:48px;
+      height:32px;
+      border-radius:6px;
+      overflow:hidden;
+      box-shadow:0 2px 6px rgba(0,0,0,0.08);
+      flex-shrink:0;
+    }
+
+    .chart-wrap {
+      display:flex;
+      gap:22px;
+      align-items:center;
+    }
+
+    canvas{
+      background:transparent;
+      width:100% !important;
+      height:auto !important;
+    }
+
+    .legend-note{
+      width:220px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
+    .footer {
+      margin-top:14px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .download-btn{
+      margin-left:auto;
+      background:var(--accent);
+      color:white;
+      padding:8px 12px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+ <body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+             <div id="up""></div>
+<form id="outcome" style="margin: top 30%;;">
+  <div class="card">
+    <div class="header">
+      <!-- small India flag SVG -->
+      <div class="flag" aria-hidden="true">
+        <svg viewBox="0 0 900 600" width="100%" height="50%" xmlns="http://www.w3.org/2000/svg">
+          <rect width="900" height="200" y="0" fill="#FF9933"/>
+          <rect width="900" height="200" y="200" fill="#FFFFFF"/>
+          <rect width="900" height="200" y="400" fill="#138808"/>
+          <!-- Ashoka chakra simplified -->
+          <circle cx="450" cy="300" r="48" fill="none" stroke="#000080" stroke-width="12"/>
+        </svg>
+      </div>
+      <div>
+        <div class="title">OUTCOME OF VOTE </div>
+        <div class="subtitle">Share of eligible voters who cast a ballot</div>
+      </div>
+
+      <button id="download" class="download-btn" title="Download chart as PNG">Download PNG</button>
+    </div>
+
+    <div class="chart-wrap">
+      <div style="flex:1;">
+        <canvas id="turnoutChart" aria-label="Voter turnout chart" role="img"></canvas>
+      </div>
+
+      <div class="legend-note">
+
+      </div>
+    </div>
+    <a href="index.html"> back to home</a>
+  </div>
+  
+  </form>
+ </body>
+  <script>
+    // ----- SAMPLE DATA -----
+    // These are example turnout percentages per state/region.
+    // Replace labels and data with real numbers to reflect actual results.
+    const labels = [
+      "Andra Pradesh",
+      "Arunachal Pradesh",
+      "Assam",
+      "Bihar",
+      "Chattisgarh",
+      "Goa",
+      "Gujrat",
+      "Hariyana",
+      "Himachal Pradesh",
+      "Jharkhand",
+      "Karnataka",
+      "Kerela",
+      "Madhya Pradesh",
+      "Maharashtra",
+      "Manipur",
+      "Meghalaya",
+      "Mizoram",
+      "Nagaland",
+      "Odisha",
+      "Punjab",
+      "Rajasthan",
+      "Sikkim",
+      "Tamil Nadu",
+      "Telangana",
+      "Tripura",
+      "Uttar Pradesh",
+      "Uttarakhand",
+      "West Bengal",
+    ];
+
+    const dataValues = [
+    50.0,//  Andra Pradesh
+    40.0,//  Arunachal Pradesh
+    54.0,//  Assam
+    55.0,//  Bihar
+    65.0,//  Chattisgarh
+    77.0,//  Goa
+    45.0,//  Gujrat
+    35.0,//  Hariyana
+    78.0,//  Himachal Pradesh
+    32.0,//  Jharkhand
+    47.0,//  Karnataka
+    37.0,//  Kerela
+    59.0,//  Madhya Pradesh
+    62.0,//  Maharashtra
+    54.0,//  Manipur
+    68.0,//  Meghalaya
+    22.0,//  Mizoram
+    32.0,//  Nagaland
+    41.0,//  Odisha
+    52.0,//  Punjab
+    75.0,//  Rajasthan
+    41.0,//  Sikkim
+    33.0,//  Tamil Nadu
+    40.0,//  Telangana
+    56.0,//  Tripura
+    90.0,//  Uttar Pradesh
+    74.0,//  Uttarakhand
+    51.0,//  West Bengal
+    ];
+
+    // Index of the row we want to highlight (national row)
+    const highlightIndex = labels.indexOf("India (National)");
+
+    // Create bar colors and border colors
+    const barColors = dataValues.map((v, i) =>
+      i === highlightIndex ? getComputedStyle(document.documentElement).getPropertyValue('--highlight') : getComputedStyle(document.documentElement).getPropertyValue('--bar')
+    );
+
+    // Convert CSS variables to usable color strings (Chart.js accepts them)
+    const toColorString = cssVar => cssVar.trim();
+
+    for (let i = 0; i < barColors.length; i++) {
+      barColors[i] = barColors[i] || '#7fb3e6';
+      // if it's the highlighted index use darker color
+      if (i === highlightIndex) barColors[i] = toColorString(getComputedStyle(document.documentElement).getPropertyValue('--highlight')) || '#0f4c81';
+    }
+
+    // Chart configuration
+    const ctx = document.getElementById('turnoutChart').getContext('2d');
+
+    // Create Chart with horizontal bars (indexAxis: 'y')
+    const turnoutChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Turnout (%)',
+          data: dataValues,
+          backgroundColor: barColors,
+          borderRadius: 8,
+          barThickness: 20,
+          maxBarThickness: 36,
+          minBarLength: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function(val){ return val + '%'; },
+              color: '#5a6a78'
+            },
+            grid: {
+              color: 'rgba(60,80,100,0.06)'
+            }
+          },
+          y: {
+            ticks: {
+              color: '#243042',
+              font: {
+                size: 13,
+                weight: 600
+              }
+            },
+            grid: {
+              display: false
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                return ctx.parsed.x + '%';
+              }
+            }
+          },
+          // Custom plugin to draw numeric labels at the end of each bar
+          datalabels: false
+        },
+        animation: {
+          duration: 700,
+          easing: 'easeOutCubic'
+        }
+      },
+      plugins: [{
+        id: 'valueLabels',
+        afterDatasetsDraw(chart, args, options){
+          const ctx = chart.ctx;
+          chart.data.datasets.forEach((dataset, datasetIndex) => {
+            const meta = chart.getDatasetMeta(datasetIndex);
+            meta.data.forEach((bar, index) => {
+              const val = dataset.data[index];
+              const xPos = bar.x + 8; // place label a bit to the right of the bar end
+              const yPos = bar.y + (bar.height / 2) + 4;
+              ctx.save();
+              ctx.font = '600 13px "Segoe UI", Roboto, Arial';
+              ctx.fillStyle = index === highlightIndex ? '#0f4c81' : '#243042';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(val.toFixed(1) + '%', xPos, yPos);
+              ctx.restore();
+            });
+          });
+        }
+      }]
+    });
+
+    // Make chart container height fit the number of labels
+    // (This keeps bars readable if many rows are present)
+    function adjustCanvasHeight() {
+      const rowHeight = 44; // px per row
+      const base = 60; // header space
+      const canvas = document.getElementById('turnoutChart');
+      const newHeight = labels.length * rowHeight + base;
+      canvas.style.height = newHeight + 'px';
+      turnoutChart.resize();
+    }
+    adjustCanvasHeight();
+
+    // Download button
+    document.getElementById('download').addEventListener('click', function(){
+      const link = document.createElement('a');
+      link.download = 'india-voter-turnout.png';
+      link.href = document.getElementById('turnoutChart').toDataURL('image/png', 1);
+      link.click();
+    });
+
+    // USAGE NOTE:
+    // To show real results, replace 'labels' and 'dataValues' arrays above with the
+    // actual list of states/UTs and their turnout percentages (numbers between 0 and 100).
+    // Optionally change highlightIndex to match the national row (or remove highlight).
+
+  </script>
+</body>
+</html>

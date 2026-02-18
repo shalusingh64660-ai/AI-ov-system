@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Voting System | Help Center</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background-color: #f2f4f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Help Center Bar */
+    .help-bar {
+      background-color: #004aad;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .help-bar:hover {
+      background-color: #003780;
+    }
+
+    .help-icon {
+      font-size: 22px;
+      margin-right: 10px;
+    }
+
+    /* Hidden Help Content */
+    .help-content {
+      display: none;
+      background-color: #ffffff;
+      padding: 20px;
+      border-top: 2px solid #004aad;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      animation: fadeIn 0.4s;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    .help-content h3 {
+      color: #004aad;
+    }
+
+    .help-content ul {
+      line-height: 1.8;
+    }
+
+    .help-content p {
+      margin-top: 15px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    /* Container */
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+
+     <div id="up" style="color: orange; white-space: normal ;">
+    </div>
+    <div id="navbar" class="big-text" style="color:white; white-space: normal;">
+        <div id="logo"> <img src="file95344.jpg" alt="" height="100" width="100" > 
+          <div class="phone" >
+                <i class="fa fa-phone"></i> </div>
+        </div>
+        <h2 style="color: black;">भारत सरकार </h2>
+    <h1 style="color: darkred;">राष्ट्रीय चुनाव आयोग </h1>
+    <br><br>
+     
+    <br><div class="scrolling-marquee w-100" style="color: orange;">
+    <marquee behavior="sans-serif" direction="left" scrollamount="5" > ONLINE VOTING SYSTEM ------MAKE YOUR VOTE SECURE AND UNIQUE</marquee>
+  </div>
+    </div><br>
+    <div id="down" style="color:lightgreen;"></div><br>
+    <br>
+    <div class="container">
+    <div class="help-bar" onclick="toggleHelp()">
+      <span><span class="help-icon">❓</span> Help Center      [Please Click Here]</span>
+      <span id="arrow">▼</span>
+    </div>
+    <div class="help-content" id="helpContent">
+      <h3>How to Use the Online Voting System</h3>
+      <ul>
+        <li>Step 1: Log in using your registered Aadhar and password.</li>
+        <li>Step 2: Verify your identity using the secure OTP sent to your email or phone.</li>
+        <li>Step 3: Select your candidate and click “Submit Vote”.</li>
+        <li>Step 4: Confirm your submission on the final confirmation screen.</li>
+        <li>Step 5: You will receive a digital confirmation receipt.</li>
+      </ul>
+      <p><b>Need more help?</b> Contact our support team:</p>
+      <p>📧 Email: support@onlinevoting.gov.in<br>
+         ☎ Helpline: 1800-123-4567</p>
+         <a href="index.html">Back to Home</a>
+    </div>
+  </div>
+  <script>
+    function toggleHelp() {
+      var content = document.getElementById("helpContent");
+      var arrow = document.getElementById("arrow");
+      if (content.style.display === "block") {
+        content.style.display = "none";
+        arrow.textContent = "▼";
+      } else {
+        content.style.display = "block";
+        arrow.textContent = "▲";
+      }
+    }
+  </script>
+</body>
+</html>

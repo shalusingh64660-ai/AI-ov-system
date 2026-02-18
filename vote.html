@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vote | AI Based Online Voting System</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .voting-box {
+      background-color: #ffffff;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 420px;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .candidate {
+      text-align: left;
+      margin: 15px 0;
+      padding-left: 30px;
+    }
+    label {
+      font-size: 18px;
+      margin-left: 8px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    #msg {
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
+      display: none;
+    }
+    a {
+      display: block;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #444;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+</body>
+<body>
+  <div class="voting-box">
+    <h2><img src="file95344.jpg" alt="" height="30px" width="50px"> CAST YOUR VOTE </h2>
+    <form id="voteForm">
+       
+      
+      <div class="candidate">
+        <input type="radio" name="VOTE" value="BJP" style= "color:black;background-color: orange; "  width="70px" height="40px">
+        <label > 1 - <b>भारतीय जनता पार्टी </b>   </label><br>
+        <input type="radio" name="candidate" value="SP" style="color: black; background-color: red;">
+        <label> 2 - <b>समाजवादी पार्टी</b>  </label><br>
+        <input type="radio" name="candidate" value="BSP" style="color: black; background-color: blue;">
+        <label> 3 -  <b>बहुजन समाज पार्टी</b> </label><br>
+        <input type="radio" name="candidate" value="INC" style="color: black; background-color: green;">
+        <label> 4 - <b>भारतीय काँग्रेस पार्टी</b>  </label>
+      </div>
+
+      <button type="submit">Submit Vote</button>
+      <p id="msg">✅ Your vote has been submitted successfully!</p>
+    </form>
+
+    <a href="index.html">← Back to Home</a>
+  </div>
+
+  <script>
+    const form = document.getElementById("voteForm");
+    const msg = document.getElementById("msg");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      msg.style.display = "block";
+      form.reset();
+      setTimeout(() => {
+        msg.style.display = "none";
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

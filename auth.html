@@ -1,0 +1,157 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aadhaar Validation + OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        input {
+            padding: 8px;
+            margin: 6px 0;
+            width: 250px;
+        }
+
+        button {
+            padding: 8px 16px;
+            cursor: pointer;
+            background-color:  navy;
+            color: white;
+        }
+
+        #message,
+        #otpmessage {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        #vld {
+            text-align: center;
+            margin-top: 15%;
+            padding-top: 8%;
+            padding-bottom: 8%;
+            margin-left: 30%;
+            margin-right: 30%;
+            background-color: white;
+
+        }
+
+        #otpsection {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="background-image: url('bgimg.jpg'); 
+             background-size: cover; 
+             background-repeat: no-repeat; 
+             background-attachment: fixed;">
+</body>
+
+<body>
+    <div id="vld">
+        <h2>🔒 Aadhaar Verification with OTP</h2>
+
+        <label for="aadhar">Enter Aadhaar Number:</label><br>
+        <br><input type="number" id="aadhar" maxlength="12" placeholder="Enter 12-digit Aadhaar"><br>
+        <br><button onclick="validateAadhar()">Validate Aadhaar</button>
+
+        <p id="message"></p>
+
+        <!-- OTP Section -->
+        <div id="otpsection">
+            <label for="otpinput">Enter OTP:</label><br>
+            <input type="text" id="otpinput" maxlength="6" placeholder="Enter OTP">
+            <button onclick="verifyOtp()">Verify OTP</button>
+            <p id="otpmessage"></p>
+        </div>
+    </div>
+    <script>
+        // ---------------- Verhoeff algorithm ----------------
+        const d = [
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+            [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
+            [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+            [4, 0, 1, 2, 3, 9, 5, 6, 7, 8],
+            [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+            [6, 5, 9, 8, 7, 1, 0, 4, 3, 2],
+            [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+            [8, 7, 6, 5, 9, 3, 2, 1, 0, 4],
+            [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+        ];
+        const p = [
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+            [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
+            [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+            [9, 4, 5, 3, 1, 2, 6, 8, 7, 0],
+            [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+            [2, 7, 9, 3, 8, 0, 6, 4, 1, 5],
+            [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
+        ];
+
+        function isStructurallyValidAadhaar(input) {
+            const s = String(input).replace(/\D/g, '');
+            if (!/^\d{12}$/.test(s)) return false;
+            if (/^([0-9])\1{11}$/.test(s)) return false; // reject all same digits
+            let c = 0;
+            const digits = s.split('').map(x => parseInt(x, 10)).reverse();
+            for (let i = 0; i < digits.length; i++) {
+                c = d[c][p[i % 8][digits[i]]];
+            }
+            return c === 0;
+        }
+
+        // ---------------- Validation + OTP generation ----------------
+        let generatedOtp = null;
+
+        function validateAadhar() {
+            const aadhaar = document.getElementById('aadhar').value.trim();
+            const message = document.getElementById('message');
+            const otpSection = document.getElementById('otpsection');
+            const otpMsg = document.getElementById('otpmessage');
+            otpMsg.textContent = ''; // reset OTP message
+
+            // Aadhaar validation
+            if (!isStructurallyValidAadhaar(aadhaar)) {
+                message.textContent = '❌ Invalid Aadhaar number. Please enter a valid 12-digit number.';
+                message.style.color = 'red';
+                otpSection.style.display = 'none';
+                return;
+            }
+            else {
+                // Aadhaar is valid -> generate OTP
+                generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+                alert('✅ Your OTP is: ' + generatedOtp + '\n(This is a simulated popup message)');
+                message.textContent = '✅  OTP has been sent.';
+                message.style.color = 'green';
+                otpSection.style.display = 'block';
+                localStorage.setItem("aadhar", aadhaar);
+            }
+        }
+
+        // ---------------- OTP verification ----------------
+        function verifyOtp() {
+            const userOtp = document.getElementById('otpinput').value.trim();
+            const otpMsg = document.getElementById('otpmessage');
+
+            if (userOtp === generatedOtp) {
+                otpMsg.textContent = '✅ OTP verified successfully!';
+                otpMsg.style.color = 'green';
+                window.location.href = "register.html";
+            } else {
+                otpMsg.textContent = '❌ Invalid OTP. Please try again.';
+                otpMsg.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+
+</html>
